@@ -5,15 +5,13 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        primary: '#222831',
-
-        'bg-blur': 'rgba(255,255,255,0.2)'
+        primary: '#1A120B'
       },
       borderColor: {
         primary: '#c7c1c14b'
       },
       backgroundImage: {
-        'bg-overlay': "url('./assets/images/overlay_3.jpg')"
+        'main-overlay': "url('./assets/images/overlay1.jpg')"
       },
       backdropBlur: {
         filter: '5px'
