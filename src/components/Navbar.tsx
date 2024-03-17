@@ -2,7 +2,7 @@ import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
 
 const Navbar = () => {
   return (
-    <div className='w-full h-[50px] bg-primary flex justify-center items-center'>
+    <div className='w-full h-[50px] bg-blur backdrop-blur-[10px] flex justify-center items-center relative z-10'>
       <div className='w-[60%] h-[35px] flex items-center border border-solid border-primary rounded-md'>
         <input
           type='text'

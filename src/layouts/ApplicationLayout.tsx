@@ -7,7 +7,8 @@ const SidebarRight = withSidebar(SidebarInfo)
 
 const ApplicationLayout = () => {
   return (
-    <div className='w-full h-[100vh] flex items-center bg-bg-overlay bg-no-repeat bg-cover'>
+    <div className='w-full h-[100vh] flex items-center relative bg-main-overlay bg-no-repeat bg-cover'>
+
       <SidebarLeft />
       <div className='h-full flex-1 flex flex-col'>
         <Navbar />
