@@ -10,7 +10,7 @@
     "paths": {
       "~/*": ["src/*"]
     },
-    
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -25,6 +25,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.mp4"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
