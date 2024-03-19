@@ -7,14 +7,15 @@ const SidebarRight = withSidebar(SidebarInfo)
 
 const ApplicationLayout = () => {
   return (
-    <div className='w-full h-[100vh] flex items-center relative bg-main-overlay bg-no-repeat bg-cover'>
-
-      <SidebarLeft />
-      <div className='h-full flex-1 flex flex-col'>
-        <Navbar />
-        <Outlet />
+    <div className='w-full h-[100vh] flex flex-col pl-3 pr-3'>
+      <Navbar />
+      <div className='flex-1 h-[90vh] flex'>
+        <SidebarLeft />
+        <div className='h-full flex-1 flex flex-col'>
+          <Outlet />
+        </div>
+        <SidebarRight />
       </div>
-      <SidebarRight />
     </div>
   )
 }

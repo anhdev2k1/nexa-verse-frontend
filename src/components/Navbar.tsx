@@ -1,17 +1,106 @@
-import { MagnifyingGlassIcon } from '@heroicons/react/16/solid'
+import { CalendarIcon, EnvelopeClosedIcon, FaceIcon, GearIcon, PersonIcon, RocketIcon } from '@radix-ui/react-icons'
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut
+} from './ui/command'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from './ui/dropdown-menu'
+import { useEffect, useState } from 'react'
 
 const Navbar = () => {
+  const [open, setOpen] = useState<boolean>(false)
+
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        setOpen((open) => !open)
+      }
+    }
+
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+  }, [])
   return (
-    <div className='w-full h-[50px] bg-blur backdrop-blur-[10px] flex justify-center items-center relative z-10'>
-      <div className='w-[60%] h-[35px] flex items-center border border-solid border-primary rounded-md'>
-        <input
-          type='text'
-          className='flex-1 bg-transparent text-[15px] placeholder-[#c7c1c14b] text-white outline-none border-none indent-2'
-          placeholder='Explore'
-        />
-        <div className='w-[35px] h-[35px] flex items-center justify-center'>
-          <MagnifyingGlassIcon className='w-4 h-4 text-white' />
-        </div>
+    <div className='w-full h-[10vh] flex-shrink-0 flex items-center justify-between'>
+      <h1 className='text-2xl font-bold'>Nexa Verse.</h1>
+
+      <div className='flex items-center gap-5'>
+        <>
+          <p className='text-sm text-muted-foreground'>
+            Press{' '}
+            <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
+              <span className='text-xs'>⌘</span>J
+            </kbd>
+          </p>
+          <CommandDialog open={open} onOpenChange={setOpen}>
+            <CommandInput placeholder='Type a command or search...' />
+            <CommandList>
+              <CommandEmpty>No results found.</CommandEmpty>
+              <CommandGroup heading='Suggestions'>
+                <CommandItem>
+                  <CalendarIcon className='mr-2 h-4 w-4' />
+                  <span>Calendar</span>
+                </CommandItem>
+                <CommandItem>
+                  <FaceIcon className='mr-2 h-4 w-4' />
+                  <span>Search Emoji</span>
+                </CommandItem>
+                <CommandItem>
+                  <RocketIcon className='mr-2 h-4 w-4' />
+                  <span>Launch</span>
+                </CommandItem>
+              </CommandGroup>
+              <CommandSeparator />
+              <CommandGroup heading='Settings'>
+                <CommandItem>
+                  <PersonIcon className='mr-2 h-4 w-4' />
+                  <span>Profile</span>
+                  <CommandShortcut>⌘P</CommandShortcut>
+                </CommandItem>
+                <CommandItem>
+                  <EnvelopeClosedIcon className='mr-2 h-4 w-4' />
+                  <span>Mail</span>
+                  <CommandShortcut>⌘B</CommandShortcut>
+                </CommandItem>
+                <CommandItem>
+                  <GearIcon className='mr-2 h-4 w-4' />
+                  <span>Settings</span>
+                  <CommandShortcut>⌘S</CommandShortcut>
+                </CommandItem>
+              </CommandGroup>
+            </CommandList>
+          </CommandDialog>
+        </>
+        <DropdownMenu>
+          <DropdownMenuTrigger className='outline-none'>
+            <Avatar>
+              <AvatarImage src='https://github.com/shadcn.png' alt='@shadcn' />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Profile</DropdownMenuItem>
+            <DropdownMenuItem>Billing</DropdownMenuItem>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuItem>Subscription</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )
