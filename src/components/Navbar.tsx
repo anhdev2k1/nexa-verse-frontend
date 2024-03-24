@@ -1,4 +1,13 @@
-import { CalendarIcon, EnvelopeClosedIcon, FaceIcon, GearIcon, PersonIcon, RocketIcon } from '@radix-ui/react-icons'
+import {
+  CalendarIcon,
+  EnvelopeClosedIcon,
+  FaceIcon,
+  GearIcon,
+  MoonIcon,
+  PersonIcon,
+  RocketIcon,
+  SunIcon
+} from '@radix-ui/react-icons'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import {
   CommandDialog,
@@ -19,10 +28,12 @@ import {
   DropdownMenuTrigger
 } from './ui/dropdown-menu'
 import { useEffect, useState } from 'react'
+import { Button } from './ui/button'
+import { useTheme } from '~/contexts/theme-provider'
 
 const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false)
-
+  const { setTheme, theme } = useTheme()
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === 'j' && (e.metaKey || e.ctrlKey)) {
@@ -35,17 +46,27 @@ const Navbar = () => {
     return () => document.removeEventListener('keydown', down)
   }, [])
   return (
-    <div className='w-full h-[10vh] flex-shrink-0 flex items-center justify-between'>
+    <div className='w-full h-[10vh] pl-5 pr-5 flex-shrink-0 border-b border-border/40 flex items-center justify-between sticky top-0 z-50 bg-background/30 backdrop-blur supports-[backdrop-filter]:bg-background/20'>
       <h1 className='text-2xl font-bold'>Nexa Verse.</h1>
 
       <div className='flex items-center gap-5'>
         <>
           <p className='text-sm text-muted-foreground'>
             Press{' '}
-            <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
+            <kbd className='pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border border-input bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100'>
               <span className='text-xs'>⌘</span>J
             </kbd>
           </p>
+          {theme === 'light' ? (
+            <Button variant='outline' size='icon' onClick={() => setTheme('dark')}>
+              <MoonIcon />
+            </Button>
+          ) : (
+            <Button variant='outline' size='icon' onClick={() => setTheme('light')}>
+              <SunIcon />
+            </Button>
+          )}
+
           <CommandDialog open={open} onOpenChange={setOpen}>
             <CommandInput placeholder='Type a command or search...' />
             <CommandList>
@@ -96,9 +117,8 @@ const Navbar = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
-            <DropdownMenuItem>Billing</DropdownMenuItem>
-            <DropdownMenuItem>Team</DropdownMenuItem>
-            <DropdownMenuItem>Subscription</DropdownMenuItem>
+            <DropdownMenuItem>Setting</DropdownMenuItem>
+            <DropdownMenuItem>Log out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -1,28 +1,53 @@
+import { DashboardIcon, GlobeIcon, RocketIcon, StarIcon } from '@radix-ui/react-icons'
+import useActiveSidebar from '~/hooks/useActiveSidebar'
+
+export type SidebarMenu = {
+  label: string
+  icon: JSX.Element
+  type: string
+}
 export const SidebarInfo = () => {
   return <div className='w-full h-[100%]'></div>
 }
 
+const sidebarMenuDatas: SidebarMenu[] = [
+  {
+    label: 'Dashboard',
+    icon: <DashboardIcon />,
+    type: 'dashboard'
+  },
+  {
+    label: 'Friends',
+    icon: <RocketIcon />,
+    type: 'friends'
+  },
+  {
+    label: 'Server',
+    icon: <GlobeIcon />,
+    type: 'server'
+  },
+  {
+    label: 'Premium',
+    icon: <StarIcon />,
+    type: 'premium'
+  }
+]
 export const SidebarMenu = () => {
+  const { activeSidebar, setActiveSidebar } = useActiveSidebar('dashboard')
   return (
-    <div className='w-full h-full'>
-      {/* <div className='w-full h-[50px] flex items-center pl-3'>
-        <h3 className=' text-xl font-semibold text-white'>Explore</h3>
-      </div>
-
-      <div className='flex flex-col gap-5 mt-5 p-3'>
-        {sidebarDatas.map((item: any, index: number) => {
-          return (
-            <Link
-              to={item.path}
-              className='h-[40px] flex items-center gap-1 rounded-md hover:bg-white hover:text-[#333] group pl-2'
-              key={index}
-            >
-              {item.icon}
-              <span className='text-[16px] text-white font-medium group-hover:text-[#333]'>{item.label}</span>
-            </Link>
-          )
-        })}
-      </div> */}
+    <div className='w-full h-full flex flex-col gap-3'>
+      {sidebarMenuDatas.map((item) => {
+        return (
+          <div
+            className={`flex items-center w-full h-[40px] gap-3 cursor-pointer transition-colors hover:bg-accent pl-3 rounded-lg ${activeSidebar === item.type ? 'bg-accent' : 'bg-transparent'}`}
+            data-type={item.type}
+            onClick={(e) => setActiveSidebar(e.currentTarget.dataset.type!)}
+          >
+            {item.icon}
+            <span>{item.label}</span>
+          </div>
+        )
+      })}
     </div>
   )
 }

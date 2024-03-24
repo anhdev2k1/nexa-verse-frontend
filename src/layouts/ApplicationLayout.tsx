@@ -7,7 +7,7 @@ const SidebarRight = withSidebar(SidebarInfo)
 
 const ApplicationLayout = () => {
   return (
-    <div className='w-full h-[100vh] flex flex-col pl-3 pr-3'>
+    <div className='w-full h-[100vh] flex flex-col'>
       <Navbar />
       <div className='flex-1 h-[90vh] flex'>
         <SidebarLeft />
