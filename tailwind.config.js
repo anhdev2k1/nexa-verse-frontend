@@ -68,7 +68,8 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out'
       },
       backgroundImage: {
-        'bg-login': 'url(~/assets/images/bg-login.png)'
+        'bg-login': 'url(~/assets/images/bg-login.png)',
+        'cover-workspace': 'url(~/assets/images/cover_4.jpg)'
       }
     }
   },

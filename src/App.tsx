@@ -10,7 +10,7 @@ function App() {
   const queryClient = new QueryClient()
 
   if (!client) {
-    return <p>Loading...</p>
+    return <p>Hello...</p>
   }
 
   return (

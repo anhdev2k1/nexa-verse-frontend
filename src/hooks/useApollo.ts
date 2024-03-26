@@ -1,6 +1,7 @@
 import { ApolloClient, InMemoryCache, NormalizedCacheObject, createHttpLink } from '@apollo/client'
 import { useState, useEffect } from 'react'
-import { setContext } from '@apollo/client/link/context';
+import { setContext } from '@apollo/client/link/context'
+import Cookies from 'js-cookie'
 const httpLink = createHttpLink({
   uri: '/graphql'
 })
@@ -10,11 +11,11 @@ const useApollo = () => {
 
   useEffect(() => {
     const authLink = setContext((_, { headers }) => {
-      const token = localStorage.getItem('id_token')
+      const accessToken = Cookies.get('nexa-verse-accesstoken')
       return {
         headers: {
           ...headers,
-          authorization: token ? `Bearer ${token}` : ''
+          authorization: accessToken ? `Bearer ${accessToken}` : ''
         }
       }
     })

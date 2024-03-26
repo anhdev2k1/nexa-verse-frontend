@@ -22,6 +22,20 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
       <form onSubmit={onSubmit}>
         <div className='grid gap-2'>
           <div className='grid gap-1'>
+            <Label className='sr-only' htmlFor='full_name'>
+              Full name
+            </Label>
+            <Input
+              id='full_name'
+              placeholder='Full name...'
+              type='text'
+              autoCapitalize='none'
+              autoComplete='full_name'
+              autoCorrect='off'
+              disabled={isLoading}
+            />
+          </div>
+          <div className='grid gap-1'>
             <Label className='sr-only' htmlFor='email'>
               Email
             </Label>
@@ -31,6 +45,20 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
               type='email'
               autoCapitalize='none'
               autoComplete='email'
+              autoCorrect='off'
+              disabled={isLoading}
+            />
+          </div>
+          <div className='grid gap-1'>
+            <Label className='sr-only' htmlFor='password'>
+              Password
+            </Label>
+            <Input
+              id='password'
+              placeholder='Password...'
+              type='password'
+              autoCapitalize='none'
+              autoComplete='password'
               autoCorrect='off'
               disabled={isLoading}
             />
