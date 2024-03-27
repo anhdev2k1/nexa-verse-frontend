@@ -1,70 +1,117 @@
-import { HTMLAttributes, SyntheticEvent, useState } from 'react'
+import { HTMLAttributes } from 'react'
 import { cn } from '~/lib/utils'
-import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { GoogleLogin } from '@react-oauth/google'
+import { Button } from './ui/button'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form'
+import { EnvelopeClosedIcon, LockClosedIcon, PersonIcon } from '@radix-ui/react-icons'
+import { toast } from 'sonner'
+import { useMutation } from '@tanstack/react-query'
+import useSignUp from '~/hooks/useSignUp'
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const signUpFn = useSignUp()
+  //@Validate form
+  const formSchema = z.object({
+    full_name: z.string().min(6, {
+      message: 'Username must be at least 6 characters.'
+    }),
+    email: z.string().min(1, { message: 'This field has to be filled.' }).email('This is not a valid email.'),
+    // .refine(async () => {
+    //   // return await checkIfEmailIsValid(e)
+    // }, 'This email is not in our database'),
+    password: z.string().min(8, {
+      message: 'Password must be at least 6 characters.'
+    })
+  })
 
-  async function onSubmit(event: SyntheticEvent) {
-    event.preventDefault()
-    setIsLoading(true)
-    console.log(event)
+  //@Defind form
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      full_name: '',
+      email: '',
+      password: ''
+    }
+  })
 
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+  const signupMn = useMutation({
+    mutationFn: signUpFn,
+    onSuccess: () => {
+      toast('Sign up was successfully!', {
+        description: 'Sunday, December 03, 2023 at 9:00 AM',
+        action: {
+          label: 'Undo',
+          onClick: () => console.log('Undo')
+        }
+      })
+    },
+    onError(error, variables, context) {
+      console.log(error, variables, context)
+    }
+  })
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    signupMn.mutate(values)
   }
 
   return (
     <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={onSubmit}>
-        <div className='grid gap-2'>
-          <div className='grid gap-1'>
-            <Label className='sr-only' htmlFor='full_name'>
-              Full name
-            </Label>
-            <Input
-              id='full_name'
-              placeholder='Full name...'
-              type='text'
-              autoCapitalize='none'
-              autoComplete='full_name'
-              autoCorrect='off'
-              disabled={isLoading}
-            />
-          </div>
-          <div className='grid gap-1'>
-            <Label className='sr-only' htmlFor='email'>
-              Email
-            </Label>
-            <Input
-              id='email'
-              placeholder='name@example.com'
-              type='email'
-              autoCapitalize='none'
-              autoComplete='email'
-              autoCorrect='off'
-              disabled={isLoading}
-            />
-          </div>
-          <div className='grid gap-1'>
-            <Label className='sr-only' htmlFor='password'>
-              Password
-            </Label>
-            <Input
-              id='password'
-              placeholder='Password...'
-              type='password'
-              autoCapitalize='none'
-              autoComplete='password'
-              autoCorrect='off'
-              disabled={isLoading}
-            />
-          </div>
-        </div>
-      </form>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-5'>
+          <FormField
+            control={form.control}
+            name='full_name'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='flex items-center gap-2'>
+                  <PersonIcon /> <span>Username</span>
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder='Dyno' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='email'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='flex items-center gap-2'>
+                  <EnvelopeClosedIcon /> <span>Email</span>
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder='dyno@example.com' {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name='password'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='flex items-center gap-2'>
+                  <LockClosedIcon /> <span>Password</span>
+                </FormLabel>
+                <FormControl>
+                  <Input placeholder='Password' {...field} type='password' />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type='submit' variant={'default'} className='w-full'>
+            {signupMn.isPending ? 'Đang xử lý...' : 'Sign Up'}
+          </Button>
+        </form>
+      </Form>
+
       <div className='relative'>
         <div className='absolute inset-0 flex items-center'>
           <span className='w-full border-t' />

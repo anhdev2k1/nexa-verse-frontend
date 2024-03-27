@@ -7,7 +7,7 @@ const withSidebar = (Component: React.ComponentType<any>) => {
     const { typeSidebar } = useSidebar()
     return (
       <div
-        className={`${typeSidebar.includes('menu') ? 'w-[230px]' : 'w-[80px]'} h-full flex-shrink-0 pt-5 pl-2 pr-2 border-r border-input`}
+        className={`${typeSidebar.includes('menu') ? 'w-[230px]' : 'w-[80px]'}  transition-all h-full flex-shrink-0 pt-5 pl-2 pr-2 border-r border-input`}
       >
         <Component {...props} />
       </div>

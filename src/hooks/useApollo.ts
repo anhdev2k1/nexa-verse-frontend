@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { setContext } from '@apollo/client/link/context'
 import Cookies from 'js-cookie'
 const httpLink = createHttpLink({
-  uri: '/graphql'
+  uri: 'http://127.0.0.1:8080/graphql'
 })
 
 const useApollo = () => {
@@ -12,6 +12,8 @@ const useApollo = () => {
   useEffect(() => {
     const authLink = setContext((_, { headers }) => {
       const accessToken = Cookies.get('nexa-verse-accesstoken')
+      console.log(accessToken)
+
       return {
         headers: {
           ...headers,
