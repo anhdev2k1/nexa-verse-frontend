@@ -46,7 +46,7 @@ const Navbar = () => {
     return () => document.removeEventListener('keydown', down)
   }, [])
   return (
-    <div className='w-full h-[6vh] pl-5 pr-5 flex-shrink-0 border-b border-border/40 flex items-center justify-between sticky top-0 z-50 bg-background/30 backdrop-blur supports-[backdrop-filter]:bg-background/20'>
+    <div className='w-full h-[60px] pl-5 pr-5 flex-shrink-0 border-b border-border/40 flex items-center justify-between sticky top-0 z-50 bg-background/30 backdrop-blur supports-[backdrop-filter]:bg-background/20'>
       <h1 className='text-2xl font-bold'>nexa.</h1>
 
       <div className='flex items-center gap-5'>
