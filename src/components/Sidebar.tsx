@@ -1,4 +1,6 @@
-import { CaretLeftIcon, CaretRightIcon, DashboardIcon, GlobeIcon, RocketIcon, StarIcon } from '@radix-ui/react-icons'
+import { faCompass, faEarthAmericas, faStar, faUserGroup } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { CaretLeftIcon, CaretRightIcon } from '@radix-ui/react-icons'
 import { startTransition } from 'react'
 import { useSidebar } from '~/contexts/sidebar-provider'
 import useActiveSidebar from '~/hooks/useActiveSidebar'
@@ -11,22 +13,22 @@ export type SidebarMenu = {
 const sidebarMenuDatas: SidebarMenu[] = [
   {
     label: 'Explore',
-    icon: <DashboardIcon />,
+    icon: <FontAwesomeIcon icon={faCompass} />,
     type: 'explore'
   },
   {
     label: 'Friends',
-    icon: <RocketIcon />,
+    icon: <FontAwesomeIcon icon={faUserGroup} />,
     type: 'friends'
   },
   {
     label: 'Server',
-    icon: <GlobeIcon />,
+    icon: <FontAwesomeIcon icon={faEarthAmericas} />,
     type: 'server'
   },
   {
     label: 'Premium',
-    icon: <StarIcon />,
+    icon: <FontAwesomeIcon icon={faStar} />,
     type: 'premium'
   }
 ]
@@ -71,7 +73,7 @@ export const SidebarMenu = () => {
                 key={index}
               >
                 {item.icon}
-                <span>{item.label}</span>
+                <span className='text-sm'>{item.label}</span>
               </div>
             ) : (
               <div

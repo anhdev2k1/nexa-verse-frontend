@@ -18,6 +18,7 @@ export const SIGNUP_USER = gql`
       message
       statusCode
       metadata {
+        _id
         email
         user_profile
       }
