@@ -46,7 +46,7 @@ export const SidebarMenu = () => {
     <div className='w-full h-full flex flex-col gap-3 relative items-center'>
       {typeSidebar.includes('menu') ? (
         <div
-          className='absolute top-0 right-[-20px] flex items-center justify-center bg-primary-foreground rounded-[50%] border border-input cursor-pointer'
+          className='absolute top-0 right-[-20px] flex items-center justify-center bg-primary-foreground rounded-[50%] border border-input cursor-pointer z-10'
           data-type='icon'
           onClick={(e) => handleChangeSidebar(e)}
         >
@@ -54,7 +54,7 @@ export const SidebarMenu = () => {
         </div>
       ) : (
         <div
-          className='absolute top-0 right-[-20px] flex items-center justify-center bg-primary-foreground rounded-[50%] border border-input cursor-pointer'
+          className='absolute top-0 right-[-20px] flex items-center justify-center bg-primary-foreground rounded-[50%] border border-input cursor-pointer z-10'
           data-type='menu'
           onClick={(e) => handleChangeSidebar(e)}
         >

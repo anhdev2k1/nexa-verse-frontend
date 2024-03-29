@@ -1,5 +1,9 @@
 import React from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
+import SettingLayout from '~/layouts/SettingLayout'
+import AccountForm from '~/modules/Setting/AccountForm'
+import AppearanceForm from '~/modules/Setting/AppearanceForm'
+import ProfileForm from '~/modules/Setting/ProfileForm'
 import WorkspaceDetail from '~/modules/Workspace/WorkspaceDetail'
 import Home from '~/pages/Home'
 import SignIn from '~/pages/SignIn'
@@ -25,6 +29,24 @@ export const routes = createBrowserRouter([
       {
         path: 'workspace/:workspace_id',
         element: <WorkspaceDetail />
+      },
+      {
+        path: 'settings',
+        element: <SettingLayout />,
+        children: [
+          {
+            path: 'profile',
+            element: <ProfileForm />
+          },
+          {
+            path: 'account',
+            element: <AccountForm />
+          },
+          {
+            path: 'appearance',
+            element: <AppearanceForm />
+          }
+        ]
       }
     ]
   },
