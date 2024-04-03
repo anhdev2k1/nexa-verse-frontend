@@ -11,8 +11,10 @@ import { EnvelopeClosedIcon, LockClosedIcon, PersonIcon } from '@radix-ui/react-
 import { toast } from 'sonner'
 import { useMutation } from '@tanstack/react-query'
 import useSignUp from '~/hooks/useSignUp'
+import { useNavigate } from 'react-router-dom'
 interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
+  const navigate = useNavigate()
   const signUpFn = useSignUp()
   //@Validate form
   const formSchema = z.object({
@@ -20,9 +22,6 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
       message: 'Username must be at least 6 characters.'
     }),
     email: z.string().min(1, { message: 'This field has to be filled.' }).email('This is not a valid email.'),
-    // .refine(async () => {
-    //   // return await checkIfEmailIsValid(e)
-    // }, 'This email is not in our database'),
     password: z.string().min(8, {
       message: 'Password must be at least 6 characters.'
     })
@@ -40,19 +39,35 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
 
   const signupMn = useMutation({
     mutationFn: signUpFn,
-    onSuccess: () => {
-      toast('Sign up was successfully!', {
-        description: 'Sunday, December 03, 2023 at 9:00 AM',
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onSuccess: (data: any) => {
+      const { access_token, refresh_token } = data.signUp.metadata
+      localStorage.setItem('nexa-access-token', access_token)
+      localStorage.setItem('nexa-refresh-token', refresh_token)
+
+      toast.success('Sign up was successfully!', {
+        description: 'Sunday, December 0F3, 2023 at 9:00 AM',
         action: {
           label: 'Undo',
           onClick: () => console.log('Undo')
         }
       })
+      navigate('/home')
     },
-    onError(error, variables, context) {
-      console.log(error, variables, context)
+
+    onError(error) {
+      const errorParse = JSON.parse(JSON.stringify(error)).response.errors[0].message
+      toast.error(errorParse, {
+        description: 'Sunday, December 0F3, 2023 at 9:00 AM',
+        action: {
+          label: 'Undo',
+          onClick: () => console.log('Undo')
+        }
+      })
     }
   })
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     signupMn.mutate(values)
   }

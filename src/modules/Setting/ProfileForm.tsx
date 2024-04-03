@@ -21,14 +21,7 @@ const profileFormSchema = z.object({
       required_error: 'Please select an email to display.'
     })
     .email(),
-  bio: z.string().max(160).min(4),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: 'Please enter a valid URL.' })
-      })
-    )
-    .optional()
+  bio: z.string().max(160).min(4)
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client'
 
 export const SIGNIN_USER = gql`
-  mutation signin($email: String!, $password: String!) {
-    signin(email: $email, password: $password) {
+  mutation signIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
       message
       statusCode
       metadata {
@@ -18,9 +18,46 @@ export const SIGNUP_USER = gql`
       message
       statusCode
       metadata {
-        _id
-        email
-        user_profile
+        user {
+          _id
+          email
+          user_profile {
+            _id
+          }
+        }
+        access_token
+        refresh_token
+      }
+    }
+  }
+`
+
+export const GET_ME = gql`
+  query getMe {
+    getMe {
+      message
+      statusCode
+      metadata {
+        user {
+          _id
+          email
+          user_profile {
+            _id
+          }
+        }
+      }
+    }
+  }
+`
+
+export const REFRESH_TOKEN = gql`
+  mutation checkRefreshToken($refreshToken: String!) {
+    checkRefreshToken(refreshToken: $refreshToken) {
+      message
+      statusCode
+      metadata {
+        access_token
+        refresh_token
       }
     }
   }

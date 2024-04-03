@@ -31,9 +31,13 @@ import { useEffect, useState } from 'react'
 import { Button } from './ui/button'
 import { useTheme } from '~/contexts/theme-provider'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 
 const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false)
+  const currentUser = useQuery({ queryKey: ['currentUser'], staleTime: 300000 })
+  console.log(currentUser.data)
+
   const { setTheme, theme } = useTheme()
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -109,6 +113,7 @@ const Navbar = () => {
             </CommandList>
           </CommandDialog>
         </>
+        {/* {currentUser.isLoading ? <p>Loading...</p> : <p>Hello! {currentUser?.data!.getMe.metadata.user.email}</p>} */}
         <DropdownMenu>
           <DropdownMenuTrigger className='outline-none'>
             <Avatar>
@@ -127,7 +132,13 @@ const Navbar = () => {
             <Link to='/settings/profile'>
               <DropdownMenuItem>Profile</DropdownMenuItem>
             </Link>
-            <DropdownMenuItem onClick={() => window.location.replace('/signin')}>Log out</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                window.location.replace('/signin')
+              }}
+            >
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

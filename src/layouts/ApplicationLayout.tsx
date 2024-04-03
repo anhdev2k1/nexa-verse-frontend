@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import Navbar from '~/components/Navbar'
 import { SidebarMenu } from '~/components/Sidebar'
 import withSidebar from '~/hoc/withSidebar'
+
 const SidebarLeft = withSidebar(SidebarMenu)
 
 const ApplicationLayout = () => {
