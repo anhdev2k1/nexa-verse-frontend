@@ -8,9 +8,11 @@ import SidebarProvider from './contexts/sidebar-provider.tsx'
 import { GraphQLProvider } from './contexts/graphql-provider.tsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import { ThemeProvider } from './contexts/theme-provider.tsx'
+import { SocketProvider } from './contexts/socket-provider.tsx'
 const queryClient = new QueryClient()
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+    {/* <SocketProvider> */}
     <GraphQLProvider>
       <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>
         <QueryClientProvider client={queryClient}>
@@ -21,5 +23,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </QueryClientProvider>
       </GoogleOAuthProvider>
     </GraphQLProvider>
+    {/* </SocketProvider> */}
   </ThemeProvider>
 )

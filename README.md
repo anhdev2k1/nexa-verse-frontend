@@ -3,6 +3,8 @@
 
 Welcome to Nexa Verse, the next-generation platform for fostering interactive community groups! Our platform offers a seamless space where users can voice chat, text chat, and engage in video calls, all within a modern and intuitive interface.
 
+
+![demo](./src/assets/images/home-demo.PNG)
 ## Key Features
 
 ### Interactive Spaces

@@ -8,7 +8,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.response.use(
   (res) => {
-    return res.data.data
+    return res.data
   },
   async (err) => {
     const originalConfig = err.response.data.errors[0].extensions
@@ -26,7 +26,7 @@ axiosClient.interceptors.response.use(
         }
         try {
           const rs = await axiosClient.post('/', graphqlQuery)
-          const { access_token } = rs.data.data.checkRefreshToken.metadata
+          const { access_token } = rs.data.checkRefreshToken.metadata
           localStorage.setItem(import.meta.env.VITE_ACCESS_TOKEN_KEY, access_token)
           return axiosClient(originalConfig)
         } catch (_error) {

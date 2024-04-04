@@ -9,6 +9,7 @@ const useGetMe = () => {
     }
     try {
       const res = await axiosClient.post('/', graphqlQuery)
+      console.log(res)
       return res
     } catch (error) {
       console.error('Error in getMeFn:', error)

@@ -11,7 +11,7 @@ const ApplicationLayout = () => {
       <Navbar />
       <div className='flex-1 h-[94vh] flex'>
         <SidebarLeft />
-        <div className='h-full flex-1 flex flex-col pt-5 mr-5'>
+        <div className='h-full flex-1 flex flex-col pt-5 mr-5 ml-5'>
           <Outlet />
         </div>
       </div>

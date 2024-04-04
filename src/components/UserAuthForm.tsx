@@ -41,7 +41,8 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
     mutationFn: signUpFn,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (data: any) => {
-      const { access_token, refresh_token } = data.signUp.metadata
+      console.log(data)
+      const { access_token, refresh_token } = data.data.signUp.metadata
       localStorage.setItem(import.meta.env.VITE_ACCESS_TOKEN_KEY, access_token)
       localStorage.setItem(import.meta.env.VITE_REFRESH_TOKEN_KEY, refresh_token)
 
