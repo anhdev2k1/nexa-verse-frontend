@@ -1,29 +1,51 @@
-import { DocumentNode } from 'graphql'
-import { Variables } from 'graphql-request'
-import { useGraphQL } from '~/contexts/graphql-provider'
-import { REFRESH_TOKEN } from '~/graphql/mutations'
+import axios, { InternalAxiosRequestConfig } from 'axios'
+import { TypeAction } from '~/constants/action.constants'
+import { CHECK_REFRESH_TOKEN } from '~/graphql/mutations'
 
-export const useRequest = () => {
-  const graphQLClient = useGraphQL()
-  const sendRequest = async (mutation: DocumentNode, input?: Variables) => {
-    try {
-      const res = await graphQLClient.request(mutation, input)
-      return res
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: any) {
-      const { code, status } = JSON.parse(JSON.stringify(error)).response.errors[0].extensions
-      if (code === 401 || status === 'UNAUTHENTICATED') {
+const axiosClient = axios.create({
+  baseURL: import.meta.env.VITE_SERVER_URL || 'http://127.0.0.1:8080/graphql'
+})
+
+axiosClient.interceptors.response.use(
+  (res) => {
+    return res.data.data
+  },
+  async (err) => {
+    const originalConfig = err.response.data.errors[0].extensions
+
+    if (originalConfig.url !== '/signin') {
+      if (originalConfig.http.status === 401 && originalConfig.code === 'UNAUTHENTICATED') {
+        originalConfig._retry = true
+
         const refreshToken = localStorage.getItem('nexa-refresh-token')
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const newToken = (await graphQLClient.request(REFRESH_TOKEN, { refreshToken })) as any
-        localStorage.setItem('nexa-access-token', newToken?.access_token)
-        localStorage.setItem('nexa-refresh-token', newToken?.refresh_token)
 
-        // Retry the failed request with the new token
-        return await graphQLClient.request(mutation, input)
+        const graphqlQuery = {
+          operationName: TypeAction.CHECK_REFRESH_TOKEN,
+          query: CHECK_REFRESH_TOKEN,
+          variables: { refreshToken }
+        }
+        try {
+          const rs = await axiosClient.post('/', graphqlQuery)
+          const { access_token } = rs.data.data.checkRefreshToken.metadata
+          localStorage.setItem(import.meta.env.VITE_ACCESS_TOKEN_KEY, access_token)
+          return axiosClient(originalConfig)
+        } catch (_error) {
+          return Promise.reject(_error)
+        }
       }
-      throw error
     }
+
+    return Promise.reject(err)
   }
-  return sendRequest
-}
+)
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+axiosClient.interceptors.request.use(function (config: InternalAxiosRequestConfig<any>) {
+  const accessToken = localStorage.getItem(import.meta.env.VITE_ACCESS_TOKEN_KEY)
+  if (accessToken) {
+    config.headers.Authorization = `Bearer ${accessToken}`
+  }
+  return config
+})
+
+export default axiosClient

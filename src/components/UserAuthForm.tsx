@@ -39,12 +39,11 @@ const UserAuthForm = ({ className, ...props }: UserAuthFormProps) => {
 
   const signupMn = useMutation({
     mutationFn: signUpFn,
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSuccess: (data: any) => {
       const { access_token, refresh_token } = data.signUp.metadata
-      localStorage.setItem('nexa-access-token', access_token)
-      localStorage.setItem('nexa-refresh-token', refresh_token)
+      localStorage.setItem(import.meta.env.VITE_ACCESS_TOKEN_KEY, access_token)
+      localStorage.setItem(import.meta.env.VITE_REFRESH_TOKEN_KEY, refresh_token)
 
       toast.success('Sign up was successfully!', {
         description: 'Sunday, December 0F3, 2023 at 9:00 AM',

@@ -12,6 +12,6 @@ export interface IResponse<TData> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export type GraphqlResponse<TAction extends keyof typeof TypeAction, TData> = {
-  [K in TAction]: IResponse<TData>
+export type GraphqlResponse<TData> = {
+  [K in keyof typeof TypeAction]: IResponse<TData>
 }

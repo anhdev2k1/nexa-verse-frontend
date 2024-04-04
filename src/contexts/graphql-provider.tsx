@@ -4,7 +4,7 @@ import { createContext, useContext, useState } from 'react'
 const GRAPHQL_ENDPOINT = import.meta.env.VITE_SERVER_URL
 const graphql = new GraphQLClient(GRAPHQL_ENDPOINT, {
   headers: {
-    Authorization: `Bearer ${localStorage.getItem('nexa-access-token') || ''}`
+    Authorization: `Bearer ${localStorage.getItem(import.meta.env.VITE_ACCESS_TOKEN_KEY) || ''}`
   }
 })
 

@@ -113,7 +113,7 @@ const Navbar = () => {
             </CommandList>
           </CommandDialog>
         </>
-        {/* {currentUser.isLoading ? <p>Loading...</p> : <p>Hello! {currentUser?.data!.getMe.metadata.user.email}</p>} */}
+        {currentUser.isLoading ? <p>Loading...</p> : <p>Hello! {currentUser?.data!.getMe.metadata.user.email}</p>}
         <DropdownMenu>
           <DropdownMenuTrigger className='outline-none'>
             <Avatar>
